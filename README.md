@@ -23,27 +23,6 @@ Built with a teammate name for CMPT 354 (Database Systems I) at Simon Fraser Uni
 
 **Fines keyed on loans.** A fine belongs to exactly one loan, so `Fine` uses `loan_id` as its primary key. That makes duplicate fines for the same loan impossible.
 
-## Data validation
-
-**CHECK constraints** restrict status fields to valid values:
-
-| Table | Allowed values |
-|---|---|
-| `Copy.status` | available, on loan, on hold, lost, in repair, reference-only |
-| `Member.status` | active, expired, suspended |
-| `Fine.status` | unpaid, paid |
-
-**UNIQUE constraints** prevent duplicate ISBNs and duplicate member emails. **Foreign keys** are enforced on every relationship.
-
-**Triggers** keep the data consistent automatically:
-
-| Trigger | What it does |
-|---|---|
-| `copy_on_loan` | Marks a copy as "on loan" the moment a loan is created |
-| `copy_returned` | Sets the copy back to "available" when a return date is recorded |
-| `block_loan_if_fines_exceed` | Rejects a new loan if the member has more than $20 in unpaid fines |
-| `block_hold_if_available` | Rejects a hold if a copy of that item is already available |
-
 ## The app
 
 `LibraryDBApp.py` lets a member:
