@@ -6,40 +6,13 @@ The interesting part is the data model. Business rules like "you can't borrow if
 
 ## My contributions
 
-Built with [teammate name] for CMPT 354 (Database Systems I) at Simon Fraser University.
+Built with a teammate name for CMPT 354 (Database Systems I) at Simon Fraser University.
 
-**My part:** I designed and built the database: the schema, all constraints and triggers, data validation, and the sample dataset, all in `librarydata.ipynb`.
-
-**[Teammate name]'s part:** [edit this line to match who built what, e.g. the command-line app in `LibraryDBApp.py`]
+**My part:** I designed and built the database: the schema, all constraints and triggers, data validation, and the sample dataset, all in `librarydata.ipynb` and detailed 'Anomolies.pdf' and 'Requirments.pdf'
 
 ## Data model
 
 18 tables covering the catalogue, physical copies, members, loans, fines, holds, events, rooms, staff, and donations.
-
-```mermaid
-erDiagram
-    Item ||--o| PrintBook : "is a"
-    Item ||--o| EBook : "is a"
-    Item ||--o| Magazine : "is a"
-    Item ||--o| Journal : "is a"
-    Item ||--o| Record : "is a"
-    Item ||--|{ Copy : "has"
-    Copy ||--o{ Loan : "borrowed in"
-    Member ||--o{ Loan : "borrows"
-    Loan ||--o| Fine : "may incur"
-    Member ||--o{ Hold : "places"
-    Item ||--o{ Hold : "held"
-    Copy ||--o| Donates : "donated as"
-    Member ||--o{ Donates : "donates"
-    Event }o--|| Room : "held in"
-    Member ||--o{ Registers : "attends"
-    Event ||--o{ Registers : ""
-    Member ||--o{ Volunteers : "helps at"
-    Event ||--o{ Volunteers : ""
-    Personnel ||--o{ Manages : "manages"
-    Item ||--o{ Manages : ""
-```
-
 ### Design decisions
 
 **Item subtypes.** Every item shares common fields (title, creator, publisher, year, genre, language), but a print book needs an ISBN and page count while a journal needs an ISSN, issue, and volume. Instead of one wide table full of NULLs, `Item` holds the shared fields and each subtype gets its own table keyed on `item_id`.
